@@ -1,0 +1,36 @@
+- name: Install rysyslog and cron
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - rsyslog
+    - cron
+
+- name: Install awscli
+  pip:
+    name: awscli
+    state: present
+    version: "{{ cw_metric_awscli_version }}"
+
+- name: Template publish metric script
+  template:
+    src: "publish_metric.sh.j2"
+    dest: "{{ item.publish_script_dest }}"
+    mode: "u+x"
+  with_items: "{{ cw_metrics }}"
+
+- name: Copy metric script to destination
+  copy:
+    src: "{{ item.script_src }}"
+    dest: "{{ item.script_dest }}"
+    owner: root
+    group: root
+    mode: "u+x"
+  with_items: "{{ cw_metrics }}"
+
+- name: Template crontab file
+  template:
+    src: "cron.j2"
+    dest: "/etc/cron.d/metric"
+    mode: "u+x"
