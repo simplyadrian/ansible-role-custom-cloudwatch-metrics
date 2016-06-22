@@ -1,0 +1,13 @@
+- hosts: localhost
+  vars:
+    cw_metrics:
+      - unit: Percent
+        name: "test Docker container memory usage"
+        namespace: "System/Linux"
+        dimensions: Name=Something,Value=Something
+        script_src: "tests/metric.sh"
+        crontab_schedule: "* * * * *"
+        script_dest: "/usr/local/sbin/metric.sh"
+        publish_script_dest: "/usr/local/sbin/put_metric.sh"
+  roles:
+    - ansible-role-docker-cloudwatch-metrics

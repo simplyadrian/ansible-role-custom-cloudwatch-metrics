@@ -1,0 +1,4 @@
+{% for metric in cw_metrics %}
+metric_value=$({{ metric.script_dest }})
+/usr/local/bin/aws cloudwatch put-metric-data --metric-name '{{ metric.name }}' --unit '{{ metric.unit }}' --value $metric_value --dimensions '{{ metric.dimensions }}' --namespace '{{ metric.namespace }}' --region us-west-2
+{% endfor %}

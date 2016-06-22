@@ -1,0 +1,3 @@
+{% for metric in cw_metrics %}
+{{ metric.crontab_schedule }} root {{ metric.publish_script_dest }} 2>&1 | /usr/bin/logger -t aws_publish_metric
+{% endfor %}
