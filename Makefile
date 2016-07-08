@@ -22,10 +22,12 @@ LABEL git-commit=$$GIT_COMMIT
 LABEL TEST_TAG=$$TEST_TAG
 ADD tests /tmp/playbook
 ADD . /tmp/playbook/roles/$$TEST_LABEL
-ADD roles /tmp/playbook/roles/
 WORKDIR /tmp/playbook
-RUN  pip install -r test_requirements.pip && \\
-     ansible-galaxy install -r requirements.yml -p ./roles -f && \\
+
+RUN  pip install -U pip && \\
+     pip install -r test_requirements.pip && \\
+# no requirements.yml
+#     ansible-galaxy install -r requirements.yml -p ./roles -f && \\
      ansible-playbook $$ANSIBLE_OPTIONS -i inventory test.yml
 endef
 export DOCKER_BODY
