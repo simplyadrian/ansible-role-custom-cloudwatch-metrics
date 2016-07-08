@@ -10,4 +10,4 @@
         script_dest: "/usr/local/sbin/metric.sh"
         publish_script_dest: "/usr/local/sbin/put_metric.sh"
   roles:
-    - ansible-role-docker-cloudwatch-metrics
+    - ansible-role-custom-cloudwatch-metrics
