@@ -1,10 +1,9 @@
-- name: Install rysyslog and cron
+- name: Install cron
   apt:
     name: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
-    - rsyslog
     - cron
 
 - name: Install awscli
