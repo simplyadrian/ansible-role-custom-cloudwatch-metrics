@@ -17,9 +17,9 @@
   when: ansible_os_family == "RedHat"
 
 - name: Start cron for Redhat
-  shell: service crond start
-  args:
-    executable: /bin/bash
+  service:
+    name: crond
+    state: started
   when: ansible_os_family == "RedHat"
 
 - name: Install awscli
