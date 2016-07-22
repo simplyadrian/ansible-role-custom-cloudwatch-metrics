@@ -20,6 +20,7 @@
   service:
     name: crond
     state: started
+    enabled: yes
   when: ansible_os_family == "RedHat"
 
 - name: Install awscli
