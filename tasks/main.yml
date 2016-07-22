@@ -1,10 +1,20 @@
-- name: Install cron
+- name: Install cron for Debian
   apt:
     name: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
     - cron
+  when: ansible_os_family == "Debian"
+
+- name: Install cron for RedHat
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - cron
+  when: ansible_os_family == "RedHat"
 
 - name: Install awscli
   pip:
