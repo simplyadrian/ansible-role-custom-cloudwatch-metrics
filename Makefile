@@ -1,5 +1,5 @@
 GIT_COMMIT=$(shell git rev-parse HEAD)
-MY_DIR=$(shell basename $(CURDIR))
+MY_DIR=$(shell basename "$(CURDIR)")
 TEST_LABEL_KEY=ansible-role-testing
 PLATFORM=ubuntu
 define DOCKER_BODY
@@ -42,15 +42,15 @@ testv%: ANSIBLE_OPTIONS = -vvvv
 test%:
 	( echo 'FROM ${PLATFORM}:${TEST_TAG}' ) > tests/Dockerfile.${PLATFORM}.${TEST_TAG}
 	echo "$$DOCKER_BODY" >> tests/Dockerfile.${PLATFORM}.${TEST_TAG}
-	docker build --build-arg TEST_LABEL=${MY_DIR} \
+	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
           --build-arg ANSIBLE_OPTIONS=${ANSIBLE_OPTIONS} \
-    --force-rm -t ${MY_DIR}:${TEST_TAG} -f tests/Dockerfile.${PLATFORM}.${TEST_TAG} .
+    --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile.${PLATFORM}.${TEST_TAG} .
 
 remove%:
-	docker rmi $(shell docker images -q --filter label=TEST_TAG=${TEST_TAG} --filter label=${TEST_LABEL_KEY}=${MY_DIR})
+	docker rmi $(shell docker images -q --filter label=TEST_TAG=${TEST_TAG} --filter label=${TEST_LABEL_KEY}="${MY_DIR}")
 	rm tests/Dockerfile.${PLATFORM}.${TEST_TAG}
 clean .IGNORE: remove14 remove16
 all: test14 test16
