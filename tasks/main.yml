@@ -13,7 +13,13 @@
     state: present
     update_cache: yes
   with_items:
-    - cron
+    - crontabs
+  when: ansible_os_family == "RedHat"
+
+- name: Start cron for Redhat
+  shell: service crond start
+  args:
+    executable: /bin/bash
   when: ansible_os_family == "RedHat"
 
 - name: Install awscli
